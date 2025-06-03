@@ -69,8 +69,8 @@ const loginUser=async(req,res)=>{
 
 const getUserProfile=async(req,res)=>{
     try {
-        const {id}=req.body
-        const user=await User.findById(id).select('-password')
+        const {_id}=req.body
+        const user=await User.findById(_id).select('-password')
         if(!user) {
             return res.status(404).json({message:"No User Found"})
         }
