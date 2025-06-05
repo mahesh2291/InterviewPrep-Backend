@@ -46,8 +46,9 @@ exports.createSession=async(req,res)=>{
 
 exports.getMySessions=async(req,res)=>{
     try {
-
-        const sessions=await Session.find({user: "683de0a88caab5d22e7608ad"})
+        const user_id=req.user._id
+        
+        const sessions=await Session.find({user: user_id})
         .sort({createdAt:-1})
         .populate("questions")
 
