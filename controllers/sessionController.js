@@ -46,7 +46,7 @@ exports.createSession=async(req,res)=>{
 
 exports.getMySessions=async(req,res)=>{
     try {
-        const {_id}=req.body
+        const _id=req.user._id
         
         const sessions=await Session.find({user: _id})
         .sort({createdAt:-1})
