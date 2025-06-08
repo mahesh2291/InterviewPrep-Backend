@@ -3,7 +3,7 @@ const bcrypt=require('bcryptjs')
 const jwt=require('jsonwebtoken')
 
 const generateToken=(userId)=>{
-    return jwt.sign({id:userId},process.env.JWT_SECRET,{expiresIn:'7d'})
+    return jwt.sign({id:userId},process.env.JWT_SECRET,{expiresIn:'1d'})
 }
 
 const registerUser=async(req,res)=>{
@@ -71,8 +71,8 @@ const loginUser=async(req,res)=>{
 
 const getUserProfile=async(req,res)=>{
     try {
-        const {_id}=req.body
-        const user=await User.findById(_id).select('-password')
+        const user_id=req.user._id
+        const user=await User.findById(user_id).select('-password')
         if(!user) {
             return res.status(404).json({message:"No User Found"})
         }
