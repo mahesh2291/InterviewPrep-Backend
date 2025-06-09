@@ -8,7 +8,7 @@ const ai=new GoogleGenAI({apiKey:process.env.GEMINI_API_KEY});
 const generateInterviewQuestions = async (req, res) => {
     try {
       const { role, experience, topicsToFocus, numberOfQuestions } = req.body;
-  
+     
       if (!role || !experience || !topicsToFocus || !numberOfQuestions) {
         return res.status(400).json({
           message: "Missing required fields"
@@ -16,12 +16,18 @@ const generateInterviewQuestions = async (req, res) => {
       }
   
       const prompt = questionAnswerPrompt(role, experience, topicsToFocus, numberOfQuestions);
-  
-      const response = await ai.models.generateContent({
-        model: 'gemini-2.0-flash-lite',
-        contents: prompt
-      });
-  
+          
+      let response;
+      try {
+        response = await ai.models.generateContent({
+          model: 'gemini-2.0-flash-lite',
+          contents: prompt
+        });
+      } catch (genAiError) {
+        console.error("Gemini API error:", genAiError.message);
+        return res.status(500).json({ message: "Gemini AI failed", error: genAiError.message });
+      }
+      
       let rawText = response.text;
   
       // Clean the raw text
@@ -42,7 +48,7 @@ const generateInterviewQuestions = async (req, res) => {
       question: item.question.trim(),
       answer: item.answer.replace(/\s*\n\s*/g, " ").trim() // Collapse unnecessary line breaks in answers
     }));
-    
+    console.log(sanitized)
     res.status(200).json(sanitized);
   
     } catch (err) {

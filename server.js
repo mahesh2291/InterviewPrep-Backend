@@ -12,7 +12,6 @@ const {generateConceptExplaination,generateInterviewQuestions}=require('./contro
 
 const app=express()
 
-
 app.use(
     cors({
         origin:'*',
