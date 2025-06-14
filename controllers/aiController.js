@@ -32,13 +32,8 @@ const generateInterviewQuestions = async (req, res) => {
   
       // Clean the raw text
       const cleanedText = rawText
-      .replace(/^```json\s*/i, "")  
-      .replace(/^```[a-z]*\s*/i, "")  
+      .replace(/^```json\s*/, "")  
       .replace(/```$/, "")  
-      .replace(/`/g, "")  
-      .replace(/\n+/g, " ")   // Convert multiple newlines into a single space
-      .replace(/\s*\*\s*/g, "") // Remove stray asterisks (if present)
-      .replace(/javascript\s*/gi, "") // Remove unintended "javascript" markers
       .trim();
     
     const parsedData = JSON.parse(cleanedText);
@@ -80,14 +75,9 @@ const generateConceptExplaination=async(req,res)=>{
 
     
         const cleanedText = rawText
-  .replace(/^```json\s*/i, "")  
-  .replace(/^```[a-z]*\s*/i, "")  
+  .replace(/^```json\s*/, "")  
   .replace(/```$/, "")  
-  .replace(/`/g, "")  
-  .replace(/\n{2,}/g, "\n")   // Converts multiple newlines into a single newline
-  .replace(/\n\s*\n/g, "\n")  // Removes blank lines
-  .replace(/\s*\*\s*/g, "")   // Removes stray asterisks
-  .replace(/\\/g, "")
+  
   .trim();
 
 const parsedData = JSON.parse(cleanedText);
